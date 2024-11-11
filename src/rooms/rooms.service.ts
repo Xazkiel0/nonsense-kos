@@ -4,6 +4,7 @@ import { UpdateRoomDto } from './dto/update-room.dto';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { DrizzleAsyncProvider } from 'src/drizzle/drizzle.provider';
 import * as schema from '../drizzle/schema';
+import { eq } from 'drizzle-orm';
 
 @Injectable()
 export class RoomsService {
@@ -26,19 +27,45 @@ export class RoomsService {
     }
   }
 
-  findAll() {
-    return `This action returns all rooms`;
+  async findAll() {
+    try {
+      const rooms = await this.db.query.roomsTable.findMany({});
+      return rooms;
+    } catch (error) {
+      return error;
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} room`;
+  async findOne(id: string) {
+    try {
+      return await this.db.query.roomsTable.findFirst({
+        where: (rooms, { eq }) => eq(rooms.id, id),
+      });
+    } catch (error) {
+      return error;
+    }
   }
 
-  update(id: number, updateRoomDto: UpdateRoomDto) {
-    return `This action updates a #${id} room`;
+  async update(id: string, updateRoomDto: UpdateRoomDto) {
+    try {
+      return await this.db
+        .update(schema.roomsTable)
+        .set(updateRoomDto)
+        .where(eq(schema.roomsTable.id, id))
+        .returning();
+    } catch (error) {
+      return error;
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} room`;
+  async remove(id: string) {
+    try {
+      return await this.db
+        .delete(schema.roomsTable)
+        .where(eq(schema.roomsTable.id, id))
+        .returning();
+    } catch (error) {
+      return error;
+    }
   }
 }
