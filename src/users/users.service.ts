@@ -13,11 +13,20 @@ export class UsersService {
     private db: NodePgDatabase<typeof schema>,
   ) {}
   async create(createUserDto: CreateUserDto) {
+    const { usersTable } = schema;
     try {
       const user = await this.db
-        .insert(schema.usersTable)
+        .insert(usersTable)
         .values(createUserDto)
-        .returning();
+        .returning({
+          id: usersTable.id,
+          name: usersTable.name,
+          username: usersTable.username,
+          email: usersTable.email,
+          role: usersTable.role,
+          sex: usersTable.sex,
+        });
+
       return user;
     } catch (error) {
       console.log(error);
@@ -26,7 +35,19 @@ export class UsersService {
   }
 
   async findAll() {
-    return await this.db.query.usersTable.findMany({});
+    return await this.db.query.usersTable.findMany({
+      columns: {
+        id: true,
+        name: true,
+        email: true,
+        username: true,
+        password: false,
+        role: true,
+        sex: true,
+        created_at: true,
+        updated_at: true,
+      },
+    });
   }
 
   async findOne(id: string) {
@@ -34,15 +55,35 @@ export class UsersService {
       where(user, { eq }) {
         return eq(user.id, id);
       },
+      columns: {
+        id: true,
+        name: true,
+        email: true,
+        username: true,
+        password: false,
+        role: true,
+        sex: true,
+        created_at: true,
+        updated_at: true,
+      },
     });
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
+    const { usersTable } = schema;
+
     return await this.db
       .update(schema.usersTable)
       .set(updateUserDto)
       .where(eq(schema.usersTable.id, id))
-      .returning();
+      .returning({
+        id: usersTable.id,
+        name: usersTable.name,
+        username: usersTable.username,
+        email: usersTable.email,
+        role: usersTable.role,
+        sex: usersTable.sex,
+      });
   }
 
   async remove(id: string) {
