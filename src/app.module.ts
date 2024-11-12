@@ -11,7 +11,7 @@ import { RoomsModule } from './rooms/rooms.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: join(__dirname, '../..', '.env.local'),
+      envFilePath: join(__dirname, '../..', '.env'),
     }),
     DrizzleModule,
     UsersModule,
