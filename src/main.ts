@@ -8,6 +8,8 @@ dotenv.config({ path: './.env' });
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors()
+
   const config = new DocumentBuilder()
     .setTitle('API Management Boarding House by Nonsense Dev')
     .setDescription('Nonsense Things')
