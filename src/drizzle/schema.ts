@@ -7,6 +7,7 @@ import {
   timestamp,
   text,
   decimal,
+  boolean,
 } from 'drizzle-orm/pg-core';
 
 export enum roomStatusType {
@@ -17,7 +18,7 @@ export enum roomStatusType {
   disable = 'disable',
   maintenance = 'maintenance',
 }
-export const roomStatus = pgEnum('roomStatus', [
+export const roomStatus = pgEnum('room_status', [
   roomStatusType.available,
   roomStatusType.paid,
   roomStatusType.unpaid,
@@ -35,16 +36,34 @@ export enum userSexType {
   male = 'male',
   female = 'female',
 }
-export const userRoles = pgEnum('userRoles', [
+export const userRoles = pgEnum('user_roles', [
   userRolesType.customer,
   userRolesType.employee,
   userRolesType.admin,
   userRolesType.owner,
 ]);
-export const userSex = pgEnum('userSex', [
+export const userSex = pgEnum('user_sex', [
   userSexType.male,
   userSexType.female,
 ]);
+export const occupancyStatus = pgEnum('occupancy_status', [
+  'double_male',
+  'double_female',
+  'single',
+  'married',
+  'special',
+]);
+
+export const customersTable = pgTable('customers', {
+  id: uuid().primaryKey().defaultRandom(),
+  name: varchar({ length: 255 }).notNull(),
+  email: varchar({ length: 255 }).notNull(),
+  sex: userSex().notNull(),
+  phone_number: varchar({ length: 255 }).notNull(),
+
+  created_at: timestamp().defaultNow(),
+  updated_at: timestamp().defaultNow(),
+});
 
 export const usersTable = pgTable('users', {
   id: uuid().primaryKey().defaultRandom(),
@@ -69,6 +88,7 @@ export const roomsTable = pgTable('rooms', {
   images: text().array().default(['1', '2']),
   description: text(),
   facility: text().array().default(['1', '2']),
+  occupancy_status: occupancyStatus(),
   status: roomStatus(),
   price: decimal().default('.0'),
   specialPrice: decimal().default('0.0'),
@@ -77,3 +97,5 @@ export const roomsTable = pgTable('rooms', {
   created_at: timestamp().defaultNow(),
   updated_at: timestamp().defaultNow(),
 });
+
+// export const p
