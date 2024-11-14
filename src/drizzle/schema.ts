@@ -80,22 +80,27 @@ export const usersTable = pgTable('users', {
 
 export const roomsTable = pgTable('rooms', {
   id: uuid().primaryKey().defaultRandom(),
-  ownerId: uuid().default('00000000-0000-0000-0000-000000000000'),
-  // employeesId: uuid().array(),
-  customerId: uuid().default('00000000-0000-0000-0000-000000000000'),
-  roomName: varchar({ length: 255 }).notNull(),
-  thumbnailImage: varchar({ length: 255 }),
+  owner_id: uuid().default('00000000-0000-0000-0000-000000000000'),
+  employees_id: uuid()
+    .array()
+    .default(['00000000-0000-0000-0000-000000000000']),
+  room_name: varchar({ length: 255 }).notNull(),
+  thumbnail_image: varchar({ length: 255 }),
   images: text().array().default(['1', '2']),
   description: text(),
   facility: text().array().default(['1', '2']),
   occupancy_status: occupancyStatus(),
   status: roomStatus(),
   price: decimal().default('.0'),
-  specialPrice: decimal().default('0.0'),
+  special_price: decimal().default('0.0'),
   location: text(),
 
   created_at: timestamp().defaultNow(),
   updated_at: timestamp().defaultNow(),
 });
 
-// export const p
+export const leaseContract = pgTable('lease_contract', {
+  id: uuid().default('00000000-0000-0000-0000-000000000000'),
+  room_id: uuid().default('00000000-0000-0000-0000-000000000000'),
+  customer_id: uuid().default('00000000-0000-0000-0000-000000000000'),
+});
