@@ -11,6 +11,7 @@ export const drizzleProvider = [
     useFactory: async (configService: ConfigService) => {
       const connectionString = configService.get<string>('POSTGRES_URL');
       const pool = new Pool({
+        ssl: false,
         connectionString,
       });
 
