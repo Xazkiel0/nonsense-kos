@@ -108,7 +108,7 @@ export const roomsTable = pgTable('rooms', {
   id: uuid().primaryKey().defaultRandom(),
   prop_id: uuid().default('00000000-0000-0000-0000-000000000000'),
   owner_id: uuid().default('00000000-0000-0000-0000-000000000000'),
-  invoice_id: uuid(),
+  contracts_id: uuid().default('00000000-0000-0000-0000-000000000000'),
   room_name: varchar({ length: 255 }).notNull(),
   thumbnail_image: varchar({ length: 255 }),
   images: text().array().default(['1', '2']),
