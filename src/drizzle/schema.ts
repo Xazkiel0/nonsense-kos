@@ -11,6 +11,7 @@ import {
   numeric,
   integer,
   time,
+  date,
 } from 'drizzle-orm/pg-core';
 
 export enum roomStatusType {
@@ -58,6 +59,12 @@ export const occupancyStatus = pgEnum('occupancy_status', [
   'married',
   'special',
 ]);
+export const invoiceStatus = pgEnum('invoice_status', [
+  'valid',
+  'invalid',
+  'cancelled',
+  'progress',
+]);
 
 export const customersTable = pgTable('customers', {
   id: uuid().primaryKey().defaultRandom(),
@@ -96,7 +103,7 @@ export const propsTable = pgTable('props', {
   floor_count: integer().default(1),
   description: text(),
   services: text(),
-})
+});
 export const roomsTable = pgTable('rooms', {
   id: uuid().primaryKey().defaultRandom(),
   prop_id: uuid().default('00000000-0000-0000-0000-000000000000'),
@@ -122,10 +129,24 @@ export const invoices = pgTable('invoices', {
   customer_name: varchar(),
   customer_address: text(),
   customer_num: varchar(),
-  bills: decimal(),
+  amount: decimal(),
+  status: invoiceStatus().default('progress'),
   payment_method: varchar(),
-  end_contract: time(),
   invoice_num: varchar(),
+  issue_date: date().defaultNow(),
+  due_date: date(),
   created_at: timestamp().defaultNow(),
-  updated_at: timestamp().defaultNow()
+  updated_at: timestamp().defaultNow(),
+});
+
+export const contracts = pgTable('contracts', {
+  id: uuid().default('00000000-0000-0000-0000-000000000000'),
+  room_id: uuid().default('00000000-0000-0000-0000-000000000000'),
+  owner_id: uuid().default('00000000-0000-0000-0000-000000000000'),
+  start_date: date().notNull(),
+  end_date: date().notNull(),
+  rent_amount: decimal().default('.0'),
+  deposit_amount: decimal().default('0.0'),
+  created_at: timestamp().defaultNow(),
+  updated_at: timestamp().defaultNow(),
 });
