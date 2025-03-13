@@ -5,22 +5,15 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1731228573105,
-      "tag": "0000_big_vulture",
+      "when": 1737093445430,
+      "tag": "0000_easy_mandarin",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
-      "when": 1731230128956,
-      "tag": "0001_mixed_lady_mastermind",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1731245234033,
-      "tag": "0002_fixed_nightmare",
+      "when": 1737130340557,
+      "tag": "0001_unusual_redwing",
       "breakpoints": true
     }
   ]

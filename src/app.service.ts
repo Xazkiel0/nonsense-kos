@@ -8,9 +8,9 @@ export class AppService {
   constructor(
     @Inject(DrizzleAsyncProvider)
     private db: NodePgDatabase<typeof schema>,
-  ) {}
+  ) { }
 
-  getHello(): string {
-    return 'Hello World!';
+  payment(request): any {
+    return request;
   }
 }

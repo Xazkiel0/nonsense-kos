@@ -6,18 +6,21 @@ import { ConfigModule } from '@nestjs/config';
 import { join } from 'path';
 import { UsersModule } from './users/users.module';
 import { RoomsModule } from './rooms/rooms.module';
+import { InvoicesModule } from './invoices/invoices.module';
+import { UsersService } from './users/users.service';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: join(__dirname, '../..', '.env'),
+      envFilePath: join(__dirname, '../..', '.env.local'),
     }),
     DrizzleModule,
     UsersModule,
     RoomsModule,
+    InvoicesModule,
   ],
   controllers: [AppController],
-  providers: [AppService, UsersModule],
+  providers: [AppService, UsersService],
 })
-export class AppModule {}
+export class AppModule { }

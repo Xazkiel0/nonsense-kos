@@ -1,9 +1,340 @@
 {
-  "id": "b4b93048-952a-482f-9450-00898b002d64",
+  "id": "6560e4b4-189a-42f6-b126-b378d406fa34",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "public.contracts": {
+      "name": "contracts",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "room_id": {
+          "name": "room_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'00000000-0000-0000-0000-000000000000'"
+        },
+        "owner_id": {
+          "name": "owner_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'00000000-0000-0000-0000-000000000000'"
+        },
+        "start_date": {
+          "name": "start_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "end_date": {
+          "name": "end_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "rent_amount": {
+          "name": "rent_amount",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'.0'"
+        },
+        "deposit_amount": {
+          "name": "deposit_amount",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'0.0'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.customers": {
+      "name": "customers",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sex": {
+          "name": "sex",
+          "type": "user_sex",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "phone_number": {
+          "name": "phone_number",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.invoices": {
+      "name": "invoices",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "room_id": {
+          "name": "room_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'00000000-0000-0000-0000-000000000000'"
+        },
+        "owner_id": {
+          "name": "owner_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'00000000-0000-0000-0000-000000000000'"
+        },
+        "customer_name": {
+          "name": "customer_name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "customer_address": {
+          "name": "customer_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "customer_num": {
+          "name": "customer_num",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "amount": {
+          "name": "amount",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "invoice_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'progress'"
+        },
+        "payment_method": {
+          "name": "payment_method",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "invoice_num": {
+          "name": "invoice_num",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "issue_date": {
+          "name": "issue_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "due_date": {
+          "name": "due_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "invoices_invoice_num_unique": {
+          "name": "invoices_invoice_num_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "invoice_num"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.props": {
+      "name": "props",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "owner_id": {
+          "name": "owner_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'00000000-0000-0000-0000-000000000000'"
+        },
+        "employees_id": {
+          "name": "employees_id",
+          "type": "uuid[]",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'{\"00000000-0000-0000-0000-000000000000\"}'"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "address": {
+          "name": "address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "facility": {
+          "name": "facility",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'{\"1\",\"2\"}'"
+        },
+        "thumbnail_image": {
+          "name": "thumbnail_image",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "images": {
+          "name": "images",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'{\"1\",\"2\"}'"
+        },
+        "floor_count": {
+          "name": "floor_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 1
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "services": {
+          "name": "services",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.rooms": {
       "name": "rooms",
       "schema": "",
@@ -12,25 +343,48 @@
           "name": "id",
           "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
-        "roomName": {
-          "name": "roomName",
+        "prop_id": {
+          "name": "prop_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'00000000-0000-0000-0000-000000000000'"
+        },
+        "owner_id": {
+          "name": "owner_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'00000000-0000-0000-0000-000000000000'"
+        },
+        "contracts_id": {
+          "name": "contracts_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'00000000-0000-0000-0000-000000000000'"
+        },
+        "room_name": {
+          "name": "room_name",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true
         },
-        "thumbnailImage": {
-          "name": "thumbnailImage",
+        "thumbnail_image": {
+          "name": "thumbnail_image",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false
         },
         "images": {
           "name": "images",
-          "type": "text[10]",
+          "type": "text[]",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "default": "'{\"1\",\"2\"}'"
         },
         "description": {
           "name": "description",
@@ -38,38 +392,33 @@
           "primaryKey": false,
           "notNull": false
         },
-        "facility": {
-          "name": "facility",
-          "type": "text[]",
+        "occupancy_status": {
+          "name": "occupancy_status",
+          "type": "occupancy_status",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": false
         },
         "status": {
           "name": "status",
-          "type": "roomStatus",
+          "type": "room_status",
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": false
         },
         "price": {
           "name": "price",
-          "type": "integer",
+          "type": "numeric",
           "primaryKey": false,
           "notNull": false,
-          "default": 0
+          "default": "'.0'"
         },
-        "specialPrice": {
-          "name": "specialPrice",
-          "type": "integer",
+        "special_price": {
+          "name": "special_price",
+          "type": "numeric",
           "primaryKey": false,
           "notNull": false,
-          "default": 0
-        },
-        "location": {
-          "name": "location",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
+          "default": "'0.0'"
         },
         "created_at": {
           "name": "created_at",
@@ -111,6 +460,13 @@
           "primaryKey": false,
           "notNull": true
         },
+        "password": {
+          "name": "password",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'password'"
+        },
         "email": {
           "name": "email",
           "type": "varchar(255)",
@@ -125,7 +481,7 @@
         },
         "role": {
           "name": "role",
-          "type": "userRoles",
+          "type": "user_roles",
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": false,
@@ -133,7 +489,7 @@
         },
         "sex": {
           "name": "sex",
-          "type": "userSex",
+          "type": "user_sex",
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
@@ -178,8 +534,29 @@
     }
   },
   "enums": {
-    "public.roomStatus": {
-      "name": "roomStatus",
+    "public.invoice_status": {
+      "name": "invoice_status",
+      "schema": "public",
+      "values": [
+        "valid",
+        "invalid",
+        "cancelled",
+        "progress"
+      ]
+    },
+    "public.occupancy_status": {
+      "name": "occupancy_status",
+      "schema": "public",
+      "values": [
+        "double_male",
+        "double_female",
+        "single",
+        "married",
+        "special"
+      ]
+    },
+    "public.room_status": {
+      "name": "room_status",
       "schema": "public",
       "values": [
         "available",
@@ -190,8 +567,8 @@
         "maintenance"
       ]
     },
-    "public.userRoles": {
-      "name": "userRoles",
+    "public.user_roles": {
+      "name": "user_roles",
       "schema": "public",
       "values": [
         "customer",
@@ -200,8 +577,8 @@
         "owner"
       ]
     },
-    "public.userSex": {
-      "name": "userSex",
+    "public.user_sex": {
+      "name": "user_sex",
       "schema": "public",
       "values": [
         "male",

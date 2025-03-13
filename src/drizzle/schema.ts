@@ -1,6 +1,7 @@
-import { sql } from 'drizzle-orm';
+import { relations, sql } from 'drizzle-orm';
 import {
   pgTable,
+  pgView,
   varchar,
   uuid,
   pgEnum,
@@ -91,7 +92,9 @@ export const usersTable = pgTable('users', {
 });
 export const propsTable = pgTable('props', {
   id: uuid().primaryKey().defaultRandom(),
-  owner_id: uuid().default('00000000-0000-0000-0000-000000000000'),
+  owner_id: uuid()
+    .default('00000000-0000-0000-0000-000000000000')
+    .references(() => usersTable.id),
   employees_id: uuid()
     .array()
     .default(['00000000-0000-0000-0000-000000000000']),
@@ -104,11 +107,31 @@ export const propsTable = pgTable('props', {
   description: text(),
   services: text(),
 });
+
+export const usersRelations = relations(usersTable, ({ one }) => ({
+  props: one(propsTable, {
+    fields: [usersTable.id],
+    references: [propsTable.owner_id],
+  }),
+}));
+// export const propsRelations = relations(propsTable, ({ one }) => ({
+//   rooms: one(roomsTable, {
+//     fields: [propsTable.id],
+//     references: [roomsTable.prop_id],
+//   }),
+// }));
+
 export const roomsTable = pgTable('rooms', {
   id: uuid().primaryKey().defaultRandom(),
-  prop_id: uuid().default('00000000-0000-0000-0000-000000000000'),
-  owner_id: uuid().default('00000000-0000-0000-0000-000000000000'),
-  contracts_id: uuid().default('00000000-0000-0000-0000-000000000000'),
+  prop_id: uuid()
+    .default('00000000-0000-0000-0000-000000000000')
+    .references(() => propsTable.id),
+  owner_id: uuid()
+    .default('00000000-0000-0000-0000-000000000000')
+    .references(() => usersTable.id),
+  contracts_id: uuid()
+    .default('00000000-0000-0000-0000-000000000000')
+    .references(() => contracts.id),
   room_name: varchar({ length: 255 }).notNull(),
   thumbnail_image: varchar({ length: 255 }),
   images: text().array().default(['1', '2']),
@@ -123,16 +146,20 @@ export const roomsTable = pgTable('rooms', {
 });
 
 export const invoices = pgTable('invoices', {
-  id: uuid().default('00000000-0000-0000-0000-000000000000'),
-  room_id: uuid().default('00000000-0000-0000-0000-000000000000'),
-  owner_id: uuid().default('00000000-0000-0000-0000-000000000000'),
+  id: uuid().primaryKey().defaultRandom(),
+  room_id: uuid()
+    .default('00000000-0000-0000-0000-000000000000')
+    .references(() => roomsTable.id),
+  owner_id: uuid()
+    .default('00000000-0000-0000-0000-000000000000')
+    .references(() => usersTable.id),
   customer_name: varchar(),
   customer_address: text(),
   customer_num: varchar(),
   amount: decimal(),
   status: invoiceStatus().default('progress'),
   payment_method: varchar(),
-  invoice_num: varchar(),
+  invoice_num: varchar().unique(),
   issue_date: date().defaultNow(),
   due_date: date(),
   created_at: timestamp().defaultNow(),
@@ -140,13 +167,19 @@ export const invoices = pgTable('invoices', {
 });
 
 export const contracts = pgTable('contracts', {
-  id: uuid().default('00000000-0000-0000-0000-000000000000'),
+  id: uuid().primaryKey().defaultRandom(),
   room_id: uuid().default('00000000-0000-0000-0000-000000000000'),
+  // .references(() => roomsTable.id),
   owner_id: uuid().default('00000000-0000-0000-0000-000000000000'),
+  // .references(() => usersTable.id),
   start_date: date().notNull(),
   end_date: date().notNull(),
   rent_amount: decimal().default('.0'),
   deposit_amount: decimal().default('0.0'),
   created_at: timestamp().defaultNow(),
   updated_at: timestamp().defaultNow(),
+});
+
+export const props_view = pgView('props_v').as((qb) => {
+  return qb.select().from(propsTable);
 });

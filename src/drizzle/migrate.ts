@@ -12,9 +12,13 @@ dotenv.config({
   path: join(process.cwd(), '.env.local'),
 });
 
+const CONNECTION_STRING = process.env.POSTGRES_URL!;
+
 (async () => {
+  console.log(`Connecting to this URL:`, CONNECTION_STRING);
+
   const pool = new pg.Pool({
-    connectionString: process.env.POSTGRES_URL,
+    connectionString: CONNECTION_STRING,
   });
   let db: NodePgDatabase<typeof allSchema> | null = null;
   db = drizzle(pool, {

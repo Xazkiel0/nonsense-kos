@@ -1,0 +1,1 @@
+CREATE VIEW "public"."props_v" AS (select "id", "owner_id", "employees_id", "name", "address", "facility", "thumbnail_image", "images", "floor_count", "description", "services" from "props");
